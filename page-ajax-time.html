@@ -1,0 +1,219 @@
+[#include "/frame/html.ftl" /]
+[@htmlHead title="" keywords="" description="" ]
+<!--每个页面单独引入的样式文件-->
+<link rel="stylesheet" href="${basePath}/static/theme/css/yuqing.css">
+[/@htmlHead]
+
+[@htmlBody]
+
+    <div class="wrapper">
+      [#assign currPage="archive_digitalCurrency"]
+	  [#include "/frame/header.html" /]
+      [#include "/frame/sidebar.html" /]
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+	       <ol class="breadcrumb breadcrumbs" style="width:100%;">
+	          <li><a href="${basePath}/dashboard/index.htm"><i class="fa fa-dashboard"></i> 首页</a></li>
+	          <li class="">档案管理</li>
+	          <li class="active">档案首页</li>
+	        </ol>     
+        </section>
+        <!-- Main content -->
+         <br>
+        <section class="content">
+        	<div class="box">
+        	<form id="search_form">
+        		<div class="box-header">       
+             		<a class="btn btn-block btn-info btn-flat" style="width:80px;" href="${basePath}/archive/digcurrency/edit.htm">新增</a>
+		              <div class="box-tools">
+		                <div class="input-group input-group-sm" style="width: 240px;box-shadow:none;">
+		               <input type="hidden" id="pageIndex" name="pageIndex">
+		                  <input type="text" name="name" class="form-control pull-right" placeholder="Search">
+		
+		                  <div class="input-group-btn">
+		                    <button type="button" class="btn btn-default" onclick="search_function(1)"><i class="fa fa-search"></i></button>
+		                  </div>
+		                </div>
+		              </div>
+            	 </div>
+            </form>	 
+            	 <div class="box-body table-responsive no-padding">
+		              <table class="table table-hover" id="alldata-tb">
+			                <tbody>
+				                <tr>
+				                  <th style="width:200px;padding-left:15px;">名称 </th>
+				                  <th>中文名称</th>
+				                  <th>简称  </th>
+				                  <th>相关网站</th>
+				                  <th>发布时间</th>
+				                  <th style="width:150px;text-align: center;">操作</th>
+				                </tr>
+			              	</tbody>
+		              </table>
+		              <div id="loading-digcurrency" class="show" style="text-align: center;margin-bottom:10px;">
+						<div class="chart-loading"><i class="fa fa-spinner fa-spin"></i> 加载中</div>
+					</div>	
+           		 </div>
+           		 <div class="box-footer clearfix">
+		              <ul class="pagination  pagination-sm no-margin pull-right" id="data_pagination">
+		              </ul>
+	            </div>            	 
+         	</div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->    
+    [#include "/frame/footer.html" /]
+    <script>
+  //设置分页栏
+
+    search_function(1);
+    
+    function setPagination(pageIndex,pageCount){
+		var pagination = $("#data_pagination");
+		$(pagination).html("");
+		if(pageIndex>1){
+			$(pagination).append("<li onclick='search_function("+(pageIndex-1)+");'><a>&laquo;</a></li>");
+		}else{
+			$(pagination).append("<li><a>&laquo;</a></li>");
+		}
+		if(pageCount > 10){
+			if(pageIndex<6){
+				for(var i=1;i<6 && i<=pageCount;i++){
+					if(pageIndex==i){
+						$(pagination).append("<li class='active'><a>"+pageIndex+"</a></li>");
+					}else{
+						$(pagination).append("<li onclick='search_function("+i+");'><a>"+i+"</a></li>");
+					}
+				}
+			}else{
+				for(var i=pageIndex-2;i<pageIndex+2 && i<=pageCount;i++){
+					if(pageIndex==i){
+						$(pagination).append("<li class='active'><a>"+pageIndex+"</a></li>");
+					}else{
+						$(pagination).append("<li onclick='search_function("+i+");'><a>"+i+"</a></li>");
+					}
+				}
+			}
+		}else{
+			for(var i=1;i<11 && i<=pageCount;i++){
+				if(pageIndex==i){
+					$(pagination).append("<li class='active'><a>"+pageIndex+"</a></li>");
+				}else{
+					$(pagination).append("<li onclick='search_function("+i+");'><a>"+i+"</a></li>");
+				}
+			}
+		}
+		if(pageIndex<pageCount){
+			$(pagination).append("<li onclick='search_function("+(pageIndex+1)+");'><a>&raquo;</a></li>");
+		}else{
+			$(pagination).append("<li><a>&raquo;</a></li>");
+		}
+	}
+    
+	
+	//加载数据
+	function search_function(pageIndex){
+		
+		if(!pageIndex || pageIndex==''){
+			pageIndex = 1;
+		}
+		$("#pageIndex").val(pageIndex);
+		var cond = $("#search_form").serialize();
+
+$.ajax({
+			
+			url:"${basePath}/archive/digcurrency/loading.json",
+			type:"POST",
+			data:cond,
+			beforeSend:function(){
+				
+				$("#loading-digcurrency").removeClass("hide").addClass("show");
+				
+			},
+			complete:function(){
+				
+				$("#loading-digcurrency").removeClass("show").addClass("hide");
+			},
+			success:function(result){
+					if(result && result.code==1){
+						var tbody = $("#alldata-tb tbody");
+						var data = result.data.data;
+						var count = result.data.count;
+						var pageSize=result.data.pageSize;
+						var pageCount = (count%pageSize==0)?parseInt(count/pageSize):parseInt(count/pageSize)+1;
+						
+						var tr= $("#alldata-tb tbody tr:first").clone();
+			 			$("#alldata-tb tbody tr").each(function(){
+							if(!$(this).hasClass("hide")){
+								$(this).remove();
+							}
+						}); 
+			 			var tb = $("#alldata-tb tbody");
+						tb.append(tr)
+						if(data){
+							
+							for(var i in data){
+								var row = data[i];
+								if(row.chName==null){
+									row.chName="";
+								}
+								if(row.symbol==null){
+									row.symbol="";
+								}
+								if(row.website==null){
+									row.website="";
+								}
+								if(row.publishTime==null){
+									row.publishTime="";
+								}
+								else{
+									row.publishTime=timestampToTime(row.publishTime);
+								}
+			 					$(tb).append("<tr><td style='padding-left:15px;'>"+row.name+"</td><td>"+row.chName+"</td><td>"+row.symbol+"</td><td><a href='"+row.website+"'>"+row.website+"</a></td><td>"+row.publishTime+"</td><td><a  class='btn btn-block btn-info btn-xs' style='width:50px;margin-left:15px;float:left;' href=${basePath}/archive/digcurrency/edit.htm?id="+row.id+">修改</a> <a class='btn btn-block btn-danger btn-xs' style='width:50px;float:left;margin-top:0;margin-left:5px;' onclick=deleteinfo('"+row.id+"')>删除</a></td></tr>")
+							}
+						}else{
+							$("#alldata-tb tbody").append("<tr><td colspan='6'>没有记录</td></tr>");
+						}
+						setPagination(pageIndex,pageCount);
+						
+					}else{
+						alert("查询时出现错误！");
+						setPagination(0,0);
+					}			
+			}
+			
+			
+			
+		})
+	}	
+	//时间戳格式化
+	function timestampToTime(timestamp) {
+	    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	    Y = date.getFullYear() + '-';
+	    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	    D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+	    return Y+M+D;
+	}
+	
+	function deleteinfo(id){
+		$.post("${basePath}/archive/digcurrency/delete.json",{id:id},
+				function(result){
+					if(result && result.code==1){
+						alert('删除成功');
+						search_function($("#pageIndex").val());
+						}
+					else{
+							alert('删除失败');
+							
+						}
+					})
+				}
+	
+    </script>
+    
+[/@htmlBody]
+
