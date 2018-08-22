@@ -1,0 +1,291 @@
+[#include "/frame/html.ftl" /]
+[@htmlHead title="" keywords="" description="" ]
+ <link rel="stylesheet" href="${basePath}/static/theme/css/globle.css">
+ <link rel="stylesheet" href="${basePath}/static/theme/css/yuqing.css">
+<!--每个页面单独引入的样式文件-->
+[/@htmlHead]
+[@htmlBody]
+
+    <div class="wrapper">     
+	  [#include "/frame/header.html" /]
+      [#include "/frame/sidebar.html" /]
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+         <section class="content-header">
+	       <ol class="breadcrumb breadcrumbs" style="width:100%;">
+	          <li><a href="${basePath}/dashboard/index.htm"><i class="fa fa-dashboard"></i> 首页</a></li>
+	          <li class="">档案管理</li>
+	          <li class="active">档案添加</li>
+	        </ol>     
+        </section>
+        <!-- Main content -->
+        <br>
+        <section class="content">
+        	<div class="box">
+        	<div class="box-header digcurrency-box-header">     
+        		<a class="btn btn-block btn-info btn-flat" style="width:80px;" onclick="history.go(-1)">返回列表</a>
+        	</div>
+        		<form  id="myForm" name="contact" enctype="multipart/form-data">
+        			<input type="hidden" name="id" value="${data.id!}">
+        			<input type="hidden" name="logoPath" value="${data.logoPath!}">        			
+	        		<div class="box-body form-detail digcurrency-box-body">
+	        			
+			         	<div class="row">		         		
+			         		<div class="col-sm-12">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no" style="color:#dd5a43" >名称：</span>
+					                <input type="text" class="form-control " placeholder="不能为空" name="name" value="${data.name!}" >
+					                
+				                </div> 
+							</div>
+						</div>	
+						<div class="row">
+							<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">中文名称：</span>
+					                <input type="text" class="form-control " placeholder="" name="chName" value="${data.chName!}">
+				                </div> 
+							</div>
+						</div>
+			         	
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">简称：</span>
+					                <input type="text" class="form-control" placeholder="" name="symbol" value="${data.symbol!}">					               
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">类型  ：</span>
+					                <input type="text" class="form-control " placeholder="" name="type" value="${data.type!}">
+				                </div> 
+							</div>			         	
+			         	</div>
+			         	<div class="row">	
+			         		<div class="col-sm-6">
+			         			<div class="input-group">
+					                <span class="input-group-addon box-solid-no">简介  ：</span>
+					                <textarea class="form-control textarea-form-control" name="summary" rows="3" value="${data.summary!}">${data.summary!}</textarea>
+				                </div> 		         		
+			         		</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					             <span class="input-group-addon box-solid-no">上传Logo：</span>
+					               	  <span class="input-group-addon" onclick="$('input[id=lefil_1]').click();" style="cursor: pointer;background:none !important;"><i class="fa fa-folder-open"></i>选择文件</span>
+							          <input id="lefil_1" type="file" class="form-control" name="file" style="display:none">
+									  <input id="photoCover" name="photoCover" class="form-control" type="text" style="width:312px !important">	
+				                </div>
+				              <div class="input-group">
+				                	<span class="uploadImage" style="float:left;margin-left:120px;display:none;"> <img alt="" src="${imgPath}/${data.logoPath!}" style="width:100px;height:100px;"></span>
+				                </div>
+							</div>	
+			         	</div>			         	
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">开发者：</span>
+					                <input type="text" class="form-control " placeholder="" name="developer" value="${data.developer!}">
+				                </div> 
+							</div>							
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">白皮书 ：</span>
+					                <input type="text" class="form-control " placeholder="" name="whitePaper" value="${data.whitePaper!}">
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">相关概念：</span>
+					                <input type="text" class="form-control " placeholder="" name="relatedNotion" value="${data.relatedNotion!}">
+				                </div> 
+							</div>							
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">核心算法：</span>
+					                <input type="text" class="form-control " placeholder="" name="coreAlgorithm" value="${data.coreAlgorithm!}">
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">货币总量：</span>
+					                <input type="text" class="form-control " placeholder="数字填写" name="maxSupply" onkeyup="value=value.replace(/[^\d]/g,'')" value="${data.maxSupply!}">					                
+				                </div> 
+							</div>								
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">相关网站：</span>
+					                <input type="text" class="form-control " placeholder="" name="website" value="${data.website!}">
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">论坛：</span>
+					                <input type="text" class="form-control " placeholder="" name="forum" value="${data.forum!}">
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">发布时间：</span>
+					                <input type="text" class="form-control layui-input" id="dateSel" placeholder="yyyy-MM-dd"  name="publishTime" value="">
+					                 
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">所属平台：</span>
+					                <input type="text" class="form-control " placeholder="" name="belongPlatform" value="${data.belongPlatform!}">
+				                </div> 
+							</div>
+			         	</div>
+			         	
+			         	
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no" >区块浏览器：</span>
+					                <input type="text" class="form-control " placeholder="" name="blockchainExplorer"  value="${data.blockchainExplorer!}" >
+				                </div> 
+							</div>
+			         	</div>
+			         	<div class="row">		         		
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no">钱包下载地址：</span>
+					                <input type="text" class="form-control " placeholder="" name="wallet"   value="${data.wallet!}">
+				                </div> 
+							</div>								
+			         	</div>
+			         	<div class="row">
+			         		<div class="col-sm-6">
+							 	<div class="input-group">
+					                <span class="input-group-addon box-solid-no" >github地址：</span>
+					                <input type="text" class="form-control" placeholder="" name="github"   value="${data.github!}">
+				                </div> 
+							</div>			         	
+			         	</div>
+		         	</div>
+		         	<div class="box-footer">
+						<div class="row" style="margin-left:100px;">
+				 			<div class="col-sm-6" style="width:150px;"> <button type="button" class="btn btn-block btn-info" id="submit">提交</button></div>	
+				 			<div class="col-sm-6" style="width:150px;"> <button type="button" class="btn btn-default btn-block" onclick="history.go(-1)">取消</button></div> 		
+				 		</div>
+				    </div>
+	         	</form>
+         	</div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->    
+    [#include "/frame/footer.html" /]
+[/@htmlBody]
+
+<script src="${basePath}/static/theme/adminLTE-2.3.11/bootstrap/js/bootstrapValidator.js"></script>
+<script src="${basePath}/static/theme/js/base.js"></script>
+<script src="${basePath}/static/theme/js/laydate.js"></script>
+<script>
+
+	$(function(){
+		
+		  laydate.render({
+			    elem: '#dateSel',
+			    btns: ['clear', 'confirm'],
+			    value:'[#if data.publishTime??]${data.publishTime?string('yyyy-MM-dd')}[/#if]'
+			  });
+	})
+	
+	
+	//上传图片	
+	$(function(){
+		
+		$('input[id=lefil_1]').change("click",function(){			
+			$(this).next().val($(this).val());  
+			
+		})
+		
+	var uploadImage = $(".uploadImage").find("img").attr("src");		
+		if(uploadImage.length>30 ){			
+			$(".uploadImage").show();
+		}else{				
+			$(".uploadImage").hide();
+		}	
+	})
+	
+	
+	
+	$("#submit").click(function(){
+		var bootstrapValidator = $("#myForm").data('bootstrapValidator');
+		 bootstrapValidator.validate();
+		if(bootstrapValidator.isValid()){
+			$("#submit").attr("disabled","disabled")
+			var form =new FormData($('#myForm')[0]);
+			$.ajax({				
+				url:"${basePath}/archive/digcurrency/edit.json",
+                type:"post",
+                processData: false, 
+                contentType:false,
+                data:form,
+                success:function(data){
+                	if(data.code==1){
+                	alert('保存成功');
+                	history.go(-1);
+                	}
+                	else{
+                		alert('保存失败');
+                	}
+                	$("#submit").removeAttr("disabled");
+                },
+                error:function(e){
+                	 alert('保存失败');
+                	 $("#submit").removeAttr("disabled");
+                }
+				
+			})
+			
+		}else{
+			
+		}
+	})
+//导航文字切换
+	$(function(){
+		var ParamVal = getUrlParam('id');
+		console.log(ParamVal)
+		if(ParamVal!=""){
+			$(".active").text("档案编辑");			
+		}
+		
+		if(ParamVal==null){
+			$(".active").text("档案添加");
+			
+		}
+		
+	})	
+	function getUrlParam(name) {
+		 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+		 if (r != null) return unescape(r[2]); return null; //返回参数值
+	}
+
+</script>
